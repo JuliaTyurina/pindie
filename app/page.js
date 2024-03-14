@@ -9,7 +9,7 @@ export default function Home() {
   const newGames = getGamesByCategory('new');
 
   return (
-    <main className="main">
+    <main className={"main"}>
       <Banner />
       <CardsList id={'popular'} title={'Популярное'} data={popularGames}>
       </CardsList>
