@@ -1,7 +1,7 @@
 import { getGamesByCategory } from "../data/data-utils";
 import { CardsList } from "../Components/CardsList/CardList";
 
-export default function New () {
+export default function TDS () {
 const tdsGames = getGamesByCategory('TDS')
 
     return (
