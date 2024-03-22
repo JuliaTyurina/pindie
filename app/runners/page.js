@@ -1,12 +1,18 @@
-import { getGamesByCategory } from "../data/data-utils";
-import { CardsList } from "../Components/CardsList/CardList";
+'use client';
+
+import { CardsListSection } from "../Components/CardsListSection/CardsListSection";
+import { endpoints } from "../api/config";
+import { useGetDataByCategory } from "../api/api-hooks";
+import { Preloader } from "../Components/Preloader/Preloader";
 
 export default function Runners () {
-const runnerGames = getGamesByCategory('runner')
+
+    const runnerGames = useGetDataByCategory(endpoints.games, "runner");
+    console.log(runnerGames);
 
     return (
         <main className={"main-inner"}>
-            <CardsList id={'runner'} title={'Ранеры'} data={runnerGames} />
+            {runnerGames ? (<CardsListSection id={'runner'} title={'Ранеры'} data={runnerGames} />) : (<Preloader/>)}
         </main>
     )
     

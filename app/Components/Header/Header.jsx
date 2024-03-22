@@ -1,50 +1,40 @@
 'use client'
 
 import Styles from '@/app/Components/Header/Header.module.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Overlay } from '@/app/Components/Overlay/Overlay'
 import { Popup } from '@/app/Components/Popup/Popup'
 import { AuthForm } from '@/app/Components/AuthForm/AuthForm'
 import Link from 'next/link'
 import { usePathname } from "next/navigation";
-import { getJWT, getMe, isResponseOk, removeJWT } from '@/app/api/api-utils'
-import { endpoints } from '@/app/api/config'
-
+import { useStore } from "@/app/store/app-store";
+import RegistrationForm from '../RegistrationForm/RegistrationForm'
+import { useRouter } from 'next/navigation'
 
 export const Header = () => {
-
+  const pathname = usePathname();
+  const authContext = useStore()
   const [popupIsOpened, setPopupIsOpened] = useState(false)
-  const [isAuthorized, setIsAuthorized] = useState(false)
+  const [regPopupIsOpened, setRegPopupIsOpened] = useState(false)
+  const router = useRouter()
 
   const openPopup = () => {
     setPopupIsOpened(true)
   }
 
+  const openRegPopup = () => {
+    setRegPopupIsOpened(true)
+  }
+
   const closePopup = () => {
     setPopupIsOpened(false)
+    setRegPopupIsOpened(false)
   }
 
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const jwt = getJWT()
-     if (jwt) {
-       getMe(endpoints.me, jwt).then((userData) => {
-        if (isResponseOk(userData)) {
-          setIsAuthorized(true)
-        } else {
-          setIsAuthorized(false)
-          removeJWT()
-        }
-      })
-    }
-  }, [])
-
-  function logOut () {
-    removeJWT()
-    setIsAuthorized(false)
+  function handleLogOut() {
+    authContext.logout()
+    router.push('/')
   }
-
 
   return (
     <header className={Styles['header']}>
@@ -108,17 +98,25 @@ export const Header = () => {
         </ul>
         <div className={Styles['auth']}>
           {
-            isAuthorized ? (
-              <button onClick={logOut} className={Styles['auth__button']}>Выйти</button>
-            ) : (
+            authContext.isAuth ? (
+              <>
+              <button onClick={() => router.push('/accaunt-info')} className={Styles['auth__button']}>Мой профиль</button>
+              <button onClick={handleLogOut} className={Styles['auth__button']}>Выйти</button>
+              </>
+            ) : (<>
               <button onClick={openPopup} className={Styles['auth__button']}>Войти</button>
+              <button onClick={openRegPopup} className={Styles['auth__button']}>Начать</button>
+            </>
             )
           }
         </div>
       </nav>
-      <Overlay close={closePopup} isOpened={popupIsOpened} />
+      <Overlay close={closePopup} isOpened={popupIsOpened || regPopupIsOpened} />
       <Popup close={closePopup} isOpened={popupIsOpened}>
-        <AuthForm close={closePopup} setAuth={setIsAuthorized} />
+        <AuthForm close={closePopup} />
+      </Popup>
+      <Popup close={closePopup} isOpened={regPopupIsOpened}>
+        <RegistrationForm close={closePopup} />
       </Popup>
     </header>
   )

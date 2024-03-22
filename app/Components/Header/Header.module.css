@@ -65,6 +65,7 @@
   
   .auth {
     display: flex;
+    gap: 5px;
   }
   
   .auth__button {

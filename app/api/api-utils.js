@@ -94,6 +94,22 @@ export function checkIfUserVoted(game, userID) {
     return game.users.find((user) => user.id === userID)
 }
 
+export async function getUserVotedGames(url, userID) {
+    try {
+        const data = await getData(url);
+        isResponseOk(data) ? normalizedData(data) : data;
+
+        const votedGames = data.filter((game) => {
+            return game.users.find((user) => {
+                return user.id === userID
+            });
+        });
+        return votedGames;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function vote(url, jwt, usersArray) {
     try {
         const response = await fetch(url, {

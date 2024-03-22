@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import Styles from './AuthForm.module.css';
-import { authorize, getMe, isResponseOk, setJWT } from '@/app/api/api-utils';
+import { authorize, isResponseOk } from '@/app/api/api-utils';
 import { endpoints } from '@/app/api/config';
+import { useStore } from '@/app/store/app-store';
 
 export const AuthForm = (props) => {
-
-  const [userData, setUserData] = useState(null)
+  const authContext = useStore()
   const [authData, setAuthData] = useState({ identifier: "", password: "" })
   const [message, setMessage] = useState({ status: null, text: null })
 
@@ -20,9 +20,7 @@ export const AuthForm = (props) => {
     e.preventDefault()
     const userData = await authorize(endpoints.auth, authData)
     if (isResponseOk(userData)) {
-      setUserData(userData)
-      setJWT(userData.jwt)
-      props.setAuth(true)
+      authContext.login(userData.user, userData.jwt)
       setMessage({ status: 'success', text: "Вы авторизовались!" })
     } else {
       setMessage({ status: 'error', text: "Неверные почта или пароль" })
@@ -31,13 +29,13 @@ export const AuthForm = (props) => {
 
   useEffect(() => {
     let timer;
-    if (userData) {
+    if (authContext.user) {
       timer = setTimeout(() => {
         props.close()
       }, 1000)
     }
     return () => clearTimeout(timer)
-  }, [userData])
+  }, [authContext.user])
 
   return (
     <form className={Styles['form']} onSubmit={handleSubmit}>

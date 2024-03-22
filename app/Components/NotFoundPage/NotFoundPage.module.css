@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 67.03vh;
+  flex: 1;
 }
 
 .not-found-title {
