@@ -100,11 +100,11 @@ export async function getUserVotedGames(url, userID) {
         isResponseOk(data) ? normalizedData(data) : data;
 
         const votedGames = data.filter((game) => {
-            return game.users.find((user) => {
+            return game.users_permissions_users.find((user) => {
                 return user.id === userID
             });
         });
-        return votedGames;
+        return normalizedData(votedGames);
     } catch (error) {
         return error;
     }

@@ -16,13 +16,15 @@ export default function AccauntInfo(props) {
 
     useEffect(() => {
         async function fetchVotedGames() {
-            setPreloaderVisible(true);
-            const games = await getUserVotedGames(endpoints.games, user.id);
-            isResponseOk(games) ? setVotedGames(games) : setVotedGames(null)
-            setPreloaderVisible(false);
+            if (user) {
+                setPreloaderVisible(true);
+                const games = await getUserVotedGames(endpoints.games, user.id);
+                isResponseOk(games) ? setVotedGames(games) : setVotedGames(null)
+                setPreloaderVisible(false);
+            }
         }
         fetchVotedGames()
-    }, []);
+    }, [user]);
 
     return (
         <main className={"main-inner"}>
@@ -31,13 +33,21 @@ export default function AccauntInfo(props) {
                     <UserCard data={user} />
                     <div className="user-games">
                         <h2>Игры, за которые ты проголосовал:</h2>
-                        {/* Добавила проверку, приходят ли данные в votedGames */}
-                        {votedGames ? (<CardsList data={votedGames} />) : ('Возникла ошибка при загрузке игр')}
+                        {votedGames && votedGames.length > 0 && (
+                            <>
+                                <CardsList data={votedGames} />
+                            </>
+                        )}
+                        {votedGames && votedGames.length === 0 && (
+                            'Ты еще не голосовал за игры'
+                        )}
+                        {!votedGames && 'Возникла ошибка при загрузке игр'}
                     </div>
                 </>
             ) : (
                 preloaderVisible && <Preloader />
             )}
         </main>
+
     );
 }
