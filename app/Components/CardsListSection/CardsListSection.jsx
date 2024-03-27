@@ -1,6 +1,6 @@
-import Styles from "./CardsListSection.module.css";
-import { CardsList } from "./CardsList";
-import { CardsSlider } from "./CardsSlider";
+import Styles from "@/app/Components/CardsListSection/CardsListSection.module.css";
+import { CardsList } from "@/app/Components/CardsListSection/CardsList";
+import { CardsSlider } from "@/app/Components/CardsListSection/CardsSlider";
 
 export const CardsListSection = (props) => {
   return (

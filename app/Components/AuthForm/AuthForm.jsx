@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Styles from './AuthForm.module.css';
+import Styles from '@/app/Components/AuthForm/AuthForm.module.css';
 import { authorize, isResponseOk } from '@/app/api/api-utils';
 import { endpoints } from '@/app/api/config';
 import { useStore } from '@/app/store/app-store';

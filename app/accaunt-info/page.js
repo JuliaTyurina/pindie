@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { Preloader } from "../Components/Preloader/Preloader";
-import { useStore } from "../store/app-store";
+import { Preloader } from "@/app/Components/Preloader/Preloader";
+import { useStore } from "@/app/store/app-store";
 import { UserCard } from '@/app/Components/UserCard/UserCard'
 import { getUserVotedGames, isResponseOk } from '@/app/api/api-utils';
 import { CardsList } from '@/app/Components/CardsListSection/CardsList';
-import { endpoints } from '../api/config';
+import { endpoints } from '@/app/api/config';
 
 export default function AccauntInfo(props) {
     const authContext = useStore();

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Card } from "../Card/Card";
-import Styles from "./CardsListSection.module.css";
+import { Card } from "@/app/Components/Card/Card";
+import Styles from "@/app/Components/CardsListSection/CardsListSection.module.css";
 
 export const CardsList = (props) => {
   return (

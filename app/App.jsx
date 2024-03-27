@@ -1,9 +1,9 @@
 "use client"
 
-import { Header } from "./components/Header/Header";
-import { Footer } from "./components/Footer/Footer";
+import { Header } from "@/app/Components/Header/Header";
+import { Footer } from "@/app/Components/Footer/Footer";
 import { useEffect } from "react";
-import { useStore } from "./store/app-store";
+import { useStore } from "@/app/store/app-store";
 
 export const App = (props) => {
     const store = useStore()
