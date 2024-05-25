@@ -11,7 +11,7 @@ const popularGames = useGetDataByCategory(endpoints.games, "popular");
 
     return (
         <main className={"main-inner"}>
-            {popularGames ? (<CardsListSection id={'popular'} title={'Популярные'} data={popularGames} />) : (<Preloader/>)}
+            {popularGames ? (popularGames.length > 0 ? (<CardsListSection id={'popular'} title={'Популярные'} data={popularGames} />) : 'В этой категории нет игр') : (<Preloader />)}
         </main>
     )
     

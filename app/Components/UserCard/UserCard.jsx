@@ -1,6 +1,7 @@
 import Styles from '@/app/Components/UserCard/UserCard.module.css'
 
 export const UserCard = (props) => {
+    // console.log(props);
     const userpic = '/images/cat-moving.gif'
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,10 +16,10 @@ export const UserCard = (props) => {
                 <div className={Styles['card__content-block']}>
                     <h3 className={Styles['card__title']}>{props.data.username}</h3>
                     <p className={Styles['card__description']}>
-                        Твоя почта {props.data.email}
+                        Твоя почта: {props.data.email}
                     </p>
-                    <p className={Styles['card__description']}> Ты присоединился к нам {formatDate(props.data.created_at)}
-                    </p>
+                    {/* <p className={Styles['card__description']}> Ты присоединился к нам {formatDate(props.data.created_at)}
+                    </p> */}
                 </div>
 
             </article>

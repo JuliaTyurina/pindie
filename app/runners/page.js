@@ -8,11 +8,10 @@ import { Preloader } from "../Components/Preloader/Preloader";
 export default function Runners () {
 
     const runnerGames = useGetDataByCategory(endpoints.games, "runner");
-    console.log(runnerGames);
 
     return (
         <main className={"main-inner"}>
-            {runnerGames ? (<CardsListSection id={'runner'} title={'Ранеры'} data={runnerGames} />) : (<Preloader/>)}
+            {runnerGames ? (runnerGames.length > 0 ? (<CardsListSection id={'runner'} title={'Ранеры'} data={runnerGames} />) : 'В этой категории нет игр') : (<Preloader />)}
         </main>
     )
     
