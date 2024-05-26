@@ -29,7 +29,7 @@ html {
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   font-family: 'Anonymous Pro', serif;
   font-size: 26px;
   max-width: 1728px;

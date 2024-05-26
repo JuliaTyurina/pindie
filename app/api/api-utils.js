@@ -17,23 +17,24 @@ export const isResponseOk = (response) => {
     return !(response instanceof Error);
 };
 
-export function normalizedDataObject(obj) {
-    return {
-        ...obj,
-        category: obj.categories,
-        users: obj.users_permissions_users,
-    }
-}
+export const normalizeDataObject = (obj) => {
+    let str = JSON.stringify(obj)
+    
+    str = str.replaceAll('_id', 'id');
+    const newObj = JSON.parse(str)
+    const result = { ...newObj, category: newObj.categories }
+    return result;
+  } 
 
 export function normalizedData(data) {
     return data.map((item) => {
-        return normalizedDataObject(item)
+        return normalizeDataObject(item)
     })
 }
 
 export async function getNormalizedGameDataById(url, id) {
     const data = await getData(`${url}/${id}`)
-    return isResponseOk(data) ? normalizedDataObject(data) : data;
+    return isResponseOk(data) ? normalizeDataObject(data) : data;
 }
 
 export async function getNormalizedGameDataByCategory(url, category) {
@@ -78,16 +79,22 @@ export async function getMe(url, jwt) {
     }
 };
 
-export function setJWT(jwt) {
-    return localStorage.setItem('jwt', jwt)
-}
+export const setJWT = (jwt) => {
+    document.cookie = `jwt=${jwt}`
+    localStorage.setItem('jwt', jwt)
+  }
 
-export function getJWT() {
+export const getJWT = () => {
+  if (document.cookie === '') {
     return localStorage.getItem('jwt')
+  }
+  const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
+  return jwt ? jwt.split('=')[1] : null
 }
 
-export function removeJWT() {
-    return localStorage.removeItem('jwt')
+export const removeJWT = () => {
+  document.cookie = 'jwt=;'
+  localStorage.removeItem('jwt')
 }
 
 export function checkIfUserVoted(game, userID) {
@@ -100,8 +107,8 @@ export async function getUserVotedGames(url, userID) {
         isResponseOk(data) ? normalizedData(data) : data;
 
         const votedGames = data.filter((game) => {
-            return game.users_permissions_users.find((user) => {
-                return user.id === userID
+            return game.users.find((user) => {
+                return user._id === userID
             });
         });
         return normalizedData(votedGames);
@@ -118,9 +125,7 @@ export async function vote(url, jwt, usersArray) {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${jwt}`
             },
-            body: JSON.stringify({
-                users_permissions_users: usersArray
-            })
+            body: JSON.stringify({ users: usersArray })
         });
         if (response.status !== 200) {
             throw new Error("Ошибка голосования");

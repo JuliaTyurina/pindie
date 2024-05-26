@@ -11,7 +11,7 @@ export default function New() {
 
     return (
         <main className={"main-inner"}>
-            {newGames ? (<CardsListSection id={'new'} title={'Новинки'} data={newGames} />) : (<Preloader />)}
+            { newGames ? (newGames.length > 0 ? (<CardsListSection id={'new'} title={'Новинки'} data={newGames} />) : 'В этой категории нет игр') : (<Preloader />)}
         </main>
     )
 

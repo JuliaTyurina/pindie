@@ -11,7 +11,7 @@ const shooterGames = useGetDataByCategory(endpoints.games, "shooter");
 
     return (
         <main className={"main-inner"}>
-            {shooterGames ? (<CardsListSection id={'shooter'} title={'Шутеры'} data={shooterGames} />) : (<Preloader/>)}
+            {shooterGames ? (shooterGames.length > 0 ? (<CardsListSection id={'shooter'} title={'Шутеры'} data={shooterGames} />) : 'В этой категории нет игр') : (<Preloader />)}
         </main>
     )
     

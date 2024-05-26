@@ -6,7 +6,7 @@ import { useStore } from '@/app/store/app-store';
 
 export const AuthForm = (props) => {
   const authContext = useStore()
-  const [authData, setAuthData] = useState({ identifier: "", password: "" })
+  const [authData, setAuthData] = useState({ email: "", password: "" })
   const [message, setMessage] = useState({ status: null, text: null })
 
   const handleInput = (e) => {
@@ -20,7 +20,7 @@ export const AuthForm = (props) => {
     e.preventDefault()
     const userData = await authorize(endpoints.auth, authData)
     if (isResponseOk(userData)) {
-      authContext.login(userData.user, userData.jwt)
+      authContext.login({...userData, id: userData._id }, userData.jwt)
       setMessage({ status: 'success', text: "Вы авторизовались!" })
     } else {
       setMessage({ status: 'error', text: "Неверные почта или пароль" })
@@ -43,7 +43,7 @@ export const AuthForm = (props) => {
       <div className={Styles['form__fields']}>
         <label className={Styles['form__field']}>
           <span className={Styles['form__field-title']}>Email</span>
-          <input className={Styles['form__field-input']} name="identifier" type="email" placeholder="hello@world.com" onInput={handleInput} />
+          <input className={Styles['form__field-input']} name="email" type="email" placeholder="hello@world.com" onInput={handleInput} />
         </label>
         <label className={Styles['form__field']}>
           <span className={Styles['form__field-title']}>Пароль</span>
