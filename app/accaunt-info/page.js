@@ -17,7 +17,6 @@ export default function AccauntInfo(props) {
     useEffect(() => {
         async function fetchVotedGames() {
             if (user) {
-                console.log(user);
                 setPreloaderVisible(true);
                 const games = await getUserVotedGames(endpoints.games, user._id);
                 isResponseOk(games) ? setVotedGames(games) : setVotedGames(null)

@@ -1,7 +1,6 @@
 import Styles from '@/app/Components/UserCard/UserCard.module.css'
 
 export const UserCard = (props) => {
-    // console.log(props);
     const userpic = '/images/cat-moving.gif'
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
